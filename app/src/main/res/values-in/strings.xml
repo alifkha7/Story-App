@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cerita</string>
+    <string name="title_login_page">Masuk</string>
+    <string name="email">Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="login">Masuk</string>
+    <string name="input_email">Masukkan email anda</string>
+    <string name="wrong_email">Format email salah</string>
+    <string name="input_password">Masukkan password anda</string>
+    <string name="error_password">Password is less than 6 characters</string>
+    <string name="title_register_page">Daftar</string>
+    <string name="input_name">Masukkan nama anda</string>
+    <string name="name">Nama</string>
+    <string name="register">Daftar</string>
+    <string name="dont_have_account">Tidak punya akun?</string>
+    <string name="already">Sudah punya akun?</string>
+    <string name="logout">Keluar</string>
+    <string name="description">Deskripsi</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload">Unggah</string>
+    <string name="didnt_get_permission">Tidak mendapatkan izin</string>
+    <string name="add_story">Tambah Cerita</string>
+    <string name="choose_picture">Pilih gambar</string>
+    <string name="insert_photo">Masukkan gambar terlebih dahulu</string>
+    <string name="language">Bahasa</string>
+    <string name="posts">Postingan</string>
+    <string name="error_desc">Deskripsi tidak boleh kosong</string>
+</resources>

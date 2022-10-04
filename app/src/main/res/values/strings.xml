@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Story</string>
+    <string name="title_login_page">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="input_email">Input your email</string>
+    <string name="wrong_email">Wrong email</string>
+    <string name="input_password">Input your password</string>
+    <string name="error_password">Password is less than 6 characters</string>
+    <string name="title_register_page">Register</string>
+    <string name="input_name">Input your name</string>
+    <string name="name">Name</string>
+    <string name="register">Register</string>
+    <string name="dont_have_account">Don\'t have account?</string>
+    <string name="already">Already have account?</string>
+    <string name="logout">Logout</string>
+    <string name="description">Description</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="didnt_get_permission">Didn\'t get permission</string>
+    <string name="add_story">Add Story</string>
+    <string name="choose_picture">Choose a picture</string>
+    <string name="insert_photo">Please insert the image file first.</string>
+    <string name="language">Language</string>
+    <string name="posts">Posts</string>
+    <string name="error_desc">Description is not allowed to be empty</string>
+</resources>
