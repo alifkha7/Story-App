@@ -26,4 +26,6 @@
     <string name="language">Language</string>
     <string name="posts">Posts</string>
     <string name="error_desc">Description is not allowed to be empty</string>
+    <string name="map">Map</string>
+    <string name="add_location">Add Location</string>
 </resources>

@@ -28,11 +28,19 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Call<StoryResponse>
 
+    @GET("stories")
+    fun storiesLoc(
+        @Header("Authorization") token: String,
+        @Query("location") location: Int,
+    ): Call<StoryResponse>
+
     @Multipart
     @POST("stories")
     fun uploadStory(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
+        @Part("lat") lat: RequestBody,
+        @Part("lon") lon: RequestBody,
     ): Call<AuthResponse>
 }

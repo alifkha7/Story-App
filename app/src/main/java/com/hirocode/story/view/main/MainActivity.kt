@@ -1,6 +1,5 @@
 package com.hirocode.story.view.main
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -28,6 +27,7 @@ import com.hirocode.story.view.ViewModelFactory
 import com.hirocode.story.view.add.AddStoryActivity
 import com.hirocode.story.view.detail.DetailStoryActivity
 import com.hirocode.story.view.login.LoginActivity
+import com.hirocode.story.view.maps.MapsActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(SETTINGS)
 
@@ -102,6 +102,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.add -> {
                 startActivity(Intent(this, AddStoryActivity::class.java))
+                true
+            }
+            R.id.maps -> {
+                startActivity(Intent(this, MapsActivity::class.java))
                 true
             }
             R.id.language -> {

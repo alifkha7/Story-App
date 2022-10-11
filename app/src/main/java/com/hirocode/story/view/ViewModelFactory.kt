@@ -6,6 +6,7 @@ import com.hirocode.story.model.UserPreference
 import com.hirocode.story.view.add.AddStoryViewModel
 import com.hirocode.story.view.login.LoginViewModel
 import com.hirocode.story.view.main.MainViewModel
+import com.hirocode.story.view.maps.MapsViewModel
 
 class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.NewInstanceFactory() {
 
@@ -20,6 +21,9 @@ class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.New
             }
             modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
                 AddStoryViewModel(pref) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -27,9 +27,9 @@ class AddStoryViewModel(private val pref: UserPreference) : ViewModel() {
         return pref.getUser().asLiveData()
     }
 
-    fun uploadStory(token: String, file: MultipartBody.Part, description: RequestBody) {
+    fun uploadStory(token: String, file: MultipartBody.Part, description: RequestBody, lat: RequestBody, long: RequestBody) {
         _isLoading.value = true
-        val service = ApiConfig.getApiService().uploadStory("Bearer $token", file, description)
+        val service = ApiConfig.getApiService().uploadStory("Bearer $token", file, description, lat, long)
         service.enqueue(object : Callback<AuthResponse> {
             override fun onResponse(
                 call: Call<AuthResponse>,

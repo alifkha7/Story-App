@@ -27,4 +27,6 @@
     <string name="language">Bahasa</string>
     <string name="posts">Postingan</string>
     <string name="error_desc">Deskripsi tidak boleh kosong</string>
+    <string name="map">Map</string>
+    <string name="add_location">Tambah Lokasi</string>
 </resources>

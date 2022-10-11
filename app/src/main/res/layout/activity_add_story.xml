@@ -54,15 +54,36 @@
             android:gravity="top"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/in_add_location"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/add_location"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_baseline_location_on_24"
+        app:layout_constraintEnd_toEndOf="@+id/in_add_description"
+        app:layout_constraintStart_toStartOf="@+id/in_add_description"
+        app:layout_constraintTop_toBottomOf="@+id/in_add_description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_add_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/uploadButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/upload"
         app:layout_constraintEnd_toEndOf="@+id/in_add_description"
         app:layout_constraintStart_toStartOf="@+id/in_add_description"
-        app:layout_constraintTop_toBottomOf="@+id/in_add_description" />
+        app:layout_constraintTop_toBottomOf="@+id/in_add_location" />
+
 
     <ProgressBar
         android:id="@+id/progressBar"

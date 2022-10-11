@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.hirocode.story.R
 import com.hirocode.story.databinding.ActivityAddStoryBinding
 import com.hirocode.story.model.UserPreference
@@ -39,6 +42,7 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var addStoryViewModel: AddStoryViewModel
     private lateinit var currentPhotoPath: String
     private var getFile: File? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -78,6 +82,7 @@ class AddStoryActivity : AppCompatActivity() {
         setupActionBar()
         setupAction()
         setupViewModel()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     private fun setupActionBar() {
@@ -89,6 +94,9 @@ class AddStoryActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.cameraButton.setOnClickListener { startTakePhoto() }
         binding.galleryButton.setOnClickListener { startGallery() }
+        binding.inAddLocation.setEndIconOnClickListener {
+            getLocation()
+        }
     }
 
     private fun setupViewModel() {
@@ -96,12 +104,6 @@ class AddStoryActivity : AppCompatActivity() {
             this,
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[AddStoryViewModel::class.java]
-
-        addStoryViewModel.getUser().observe(this) { user ->
-            binding.uploadButton.setOnClickListener {
-                uploadImage(user.token)
-            }
-        }
     }
 
     private fun startTakePhoto() {
@@ -149,19 +151,74 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(token: String) {
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getLocation()
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    binding.edAddLocation.setText("${location.latitude}, ${location.longitude}")
+                    addStoryViewModel.getUser().observe(this) { user ->
+                        binding.uploadButton.setOnClickListener {
+                            uploadImage(user.token, location)
+                        }
+                    }
+                } else {
+                    Toast.makeText(
+                        this@AddStoryActivity,
+                        "Location is not found. Try Again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun uploadImage(token: String, location: Location) {
         val edDescription = binding.edAddDescription.text.toString()
+        val latitude = location.latitude.toString()
+        val longitude = location.longitude.toString()
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
             val description = edDescription.toRequestBody("text/plain".toMediaType())
+            val lat = latitude.toRequestBody("text/plain".toMediaType())
+            val long = longitude.toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
                 file.name,
                 requestImageFile
             )
-            addStoryViewModel.uploadStory(token, imageMultipart, description)
+            addStoryViewModel.uploadStory(token, imageMultipart, description, lat, long)
             addStoryViewModel.isLoading.observe(this) { isLoading ->
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
